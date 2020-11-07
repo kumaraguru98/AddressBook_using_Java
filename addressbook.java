@@ -1,123 +1,75 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.nio.file.Files; 
+import java.nio.file.Path; 
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Scanner;
-public class WriteFile 
-{
-
-	public static void main(String[] args) 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+public class EditFile {
+	public static void main(String[] args)
 	{
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Enter file name to write: ");
-		String fileName = scanner.next();
-		System.out.print("Enter file extension to write: ");
-		String fileExtension = scanner.next();
-		//System.out.print("Enter Text to write: ");
-		//String text = scanner.next();
-		File log = new File("C:\\Users\\baluguru\\Desktop\\AddressBook\\"+fileName+fileExtension);
-		try{
-		    if(!log.exists()){
-		        System.out.println("We had to make a new file.");
-		        log.createNewFile();
-		    }
+	System.out.print("Enter file name to read: ");
+	Scanner scanner = new Scanner(System.in);
+	String fileName = scanner.next();
+	System.out.println("\nYou choose to EDIT");
+	System.out.println("Press 1 to EDIT Address");
+	System.out.println("Press 2 to EDIT firstname");
+	System.out.println("Press 3 to EDIT secondname");
+	System.out.println("Press 4 to EDIT city");
+	System.out.println("Press 5 to EDIT state");
+	System.out.println("Press 6 to EDIT zip");
+	System.out.println("Press 7 to EDIT phonenumber");
 
-		    FileWriter fileWriter = new FileWriter(log, true);
-
-		    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-		    Scanner sc= new Scanner(System.in); //System.in is a standard input stream  
-		    System.out.print("\nEnter a address: ");  
-		    String address= sc.nextLine();              //reads string   
-		    System.out.print("\nYou entered address: "+address);   
-		   // bufferedWriter.close();
-		    System.out.print("\nEnter firstname: ");  
-		    String firstname= sc.nextLine();              //reads string   
-		    System.out.print("\nYou entered firstname: "+firstname);   
-		  //  bufferedWriter.close();
-		    System.out.print("\nEnter secondname: ");  
-		    String secondname= sc.nextLine();              //reads string   
-		    System.out.print("\nYou entered secondname: "+secondname);   
-		   // bufferedWriter.close();
-		    System.out.print("\nEnter city: ");  
-		    String city= sc.nextLine();              //reads string   
-		    System.out.print("\nYou entered city: "+city);   
-		   // bufferedWriter.close();
-		    System.out.print("\nEnter state: ");  
-		    String state= sc.nextLine();              //reads string   
-		    System.out.print("\nYou entered state: "+state);   
-		   // bufferedWriter.close();
-		    System.out.print("\nEnter zip: ");  
-		    String zip= sc.nextLine();              //reads string   
-		    System.out.print("\nYou entered zip: "+zip);   
-		   // bufferedWriter.close();
-		    System.out.print("\nEnter phonenumber: ");  
-		    String phonenumber= sc.nextLine();              //reads string   
-		    System.out.print("\nYou entered phonenumber: "+phonenumber);   
-		    System.out.print("\n SAVINGMENU \n TOSAVE-1 \n DON'TSAVE-2\n SAVEAS-3\n");  
-		      int choice_for_saving = scanner.nextInt();
-	switch(choice_for_saving) {
+	int choice = scanner.nextInt();
+	switch(choice) 
+	{
 	case 1:
-		 
-		System.out.print("You Choose TO SAVE\n");
-		bufferedWriter.write(address.toString()+ "\n");
-		bufferedWriter.write(firstname + "\n");
-		bufferedWriter.write(secondname + "\n");
- 		bufferedWriter.write( city.toString() + "\n");
-		bufferedWriter.write(state.toString()  + "\n");
-		bufferedWriter.write( zip.toString() + "\n");
-		bufferedWriter.write( phonenumber.toString() + "\n");
-		bufferedWriter.close();
-		
-		System.out.print("Your data is STORED\n");
-		break;
+		editoptions(choice,fileName); 
+        break;
 	case 2:
-		System.out.print("You Choose NOT TO SAVE \n");
-		break;
+		editoptions(choice,fileName); 
+        break;
 	case 3:
-		System.out.print("You Choose SAVE AS\n");
+		editoptions(choice,fileName); 
+        break;
+	case 4:
+		editoptions(choice,fileName); 
+        break;
+	case 5:
+		editoptions(choice,fileName); 
+        break;
+	case 6:
+		editoptions(choice,fileName); 
+        break;
+	case 7:
+		editoptions(choice,fileName); 
+        break;
+}
+}
+ public static void setVariable(int lineNumber, String data,String fileName) throws IOException 
+ {
 		
-		bufferedWriter.write(address.toString()+ "\n");
-		bufferedWriter.write(firstname + "\n");
-		bufferedWriter.write(secondname + "\n");
- 		bufferedWriter.write( city.toString() + "\n");
-		bufferedWriter.write(state.toString()  + "\n");
-		bufferedWriter.write( zip.toString() + "\n");
-		bufferedWriter.write( phonenumber.toString() + "\n");
-		bufferedWriter.close();
-		System.out.print("Enter file extension to SAVEAS: ");
-		String SaveasfileExtension = scanner.next();
-		byte[] array = new byte[500];
-	    try {
-	      FileInputStream sourceFile = new FileInputStream("C:\\Users\\user\\Desktop\\AddressBook\\"+fileName+fileExtension);
-	      FileOutputStream destFile = new FileOutputStream("C:\\Users\\user\\Desktop\\AddressBook\\"+fileName+SaveasfileExtension);
+	    Path path = Paths.get("C:\\Users\\baluguru\\Desktop\\AddressBook\\"+fileName);
+	    List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+	    lines.set(lineNumber - 1, data);
+	    Files.write(path, lines, StandardCharsets.UTF_8);
+ }
+ static void editoptions(int choice,String fileName) 
+ {
+	    Scanner scanner = new Scanner(System.in);
+	    System.out.print("\n Enter text :");
+		 String Text = scanner.next();
+		 try{
+		 EditFile obj =new EditFile();
+	    setVariable(choice, Text,fileName);
+	    System.out.println("Done");
+		 } 
+		 catch(IOException e) {
+				System.out.println("COULD NOT EDIT FILE");
+		 }
+ }
+ 
 
-	      // reads all data from input.txt
-	      sourceFile.read(array);
 
-	      // writes all data to newFile
-	      destFile.write(array);
-	      System.out.println("The input.txt file is copied to newFile.");
-
-	      // closes the stream
-	      sourceFile.close();
-	      destFile.close();
-	    }
-	    catch (Exception e) {
-	      e.getStackTrace();
-	    }
-		default:
-		break; 
-	    }
-		    System.out.println("\nDone");
-		} 
-		catch(IOException e) {
-		    System.out.println("COULD NOT WRITE INTO FILE!!");
-		}
-		
-	
-	}
-	    
 }
 
